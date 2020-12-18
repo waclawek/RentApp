@@ -10,5 +10,6 @@ Rental App<br>
 <b>stores tasks</b> each Apartment has individual tasks to menage <br>
 <b>stores tenants</b> each Rent has tenants, for each of them user account is created<br>
 
+http://apartmentrentalapp.azurewebsites.net/
 
 release 0.0.2
