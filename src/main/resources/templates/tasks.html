@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="tasks">
+    <meta name="author" content="lukasz waclawek">
+    <title>Tasks</title>
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+    <style>
+
+        .center {
+
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centerBlock {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: dodgerblue;
+            color: white;
+        }
+    </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div sec:authorize="isAuthenticated()">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-1 text-gray-800">Tasks</h1>
+                    <p class="mb-2">In this place, you can manage tasks. The task is associated with an apartment. If
+                        You have to fix the tap or buy a new chair this is a place to take notes.</p>
+                    <div class="centerBlock">
+                        <div sec:authorize="hasRole('OWNER')" >
+                            <form method="get" th:action="@{/owner/tasks/create}">
+                                <button type="submit" class="btn btn-outline-primary"> + Create new task</button>
+                            </form>
+                        </div>
+                        <div sec:authorize="hasRole('RENTIER')" >
+                            <form method="get" th:action="@{/tenant/tasks/create}">
+                                <button type="submit" class="btn btn-outline-primary"> + Create new task</button>
+                            </form>
+                        </div>
+                        <br>
+                        <div class="table-responsive">
+                            <table border=1 id="customers">
+                                <thead>
+                                <th width="50px" align="center">id</th>
+                                <th width="100ox" align="center">User ID</th>
+                                <th width="200px" align="center">Apartment</th>
+                                <th width="80px" align="center">Creation date</th>
+                                <th width="500px" align="center">Description</th>
+                                <th width="100px" align="center">Status</th>
+                                <th align="center">Actions</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="task : ${tasks}">
+                                    <td align="center"><span th:text="${task.id}"></span></td>
+                                    <td><span th:text="${task.userId}"></span></td>
+                                    <td align="left" style="margin:5px;">
+                                        <span th:text="${apartmentService.findById(task.apartmentId).getName()}"></span><br>
+                                        <span th:text="${apartmentService.findById(task.apartmentId).getAddress()}"></span>
+                                    </td>
+                                    <td align="center"><span th:text="${task.creationDate}"></span></td>
+                                    <td align="left"><span th:text="${task.description}"></span></td>
+                                    <td align="center"><span th:text="${task.status}"></span></td>
+                                    <td align="center">
+                                        <form sec:authorize="hasRole('OWNER')"  class="d-inline p-1" method="post" th:action="@{/owner/tasks/edit}">
+                                            <input hidden name="id" th:value="${task.id}">
+                                            <button class="btn btn-outline-primary btn-sm" type="submit">manage</button>
+                                        </form>
+                                        <form sec:authorize="hasRole('RENTIER')"  class="d-inline p-1" method="post" th:action="@{/tenant/tasks/edit}">
+                                            <input hidden name="id" th:value="${task.id}">
+                                            <button class="btn btn-outline-primary btn-sm" type="submit">manage</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <h1>Brak autoryzacji.</h1>
+                    <a th:href="@{/}">Przejdź na stronę główną aby się zalogować.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="thymeleaf.org" xmlns:c="http://java.sun.com/xml/ns/javaee">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Landing page">
+    <meta name="author" content="Lukasz Waclawek">
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+    <link rel="icon" th:href="@{favicon.ico}" type="image/x-icon"/>
+    <title>Landing page</title>
+</head>
+<body class="bg-gradient-primary">
+
+<!--Page nav bar-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light" id="mainNav">
+    <div class="container">
+        <div class="sidebar-brand-icon">
+            <i class="fas fa-key"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Panda rent <sup>0.0.2</sup></div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/register}">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-xl-5">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="p-5">
+                            <div class="text-left">
+                                <h5 class="h5 text-gray-900 mb-4">Welcome to Panda rent</h5>
+                                <h6>Property long term rental in spreadsheets has come to an end! Panda rent brings
+                                    modern technologies for Your convenience.</h6>
+                                <h6>Menage your payments, bills and deposits.</h6>
+                                <h6>You and your tenants can create tasks for each property. Monitor the progress of
+                                    each task.</h6>
+                                <h6>Always know when contract is expiring. Extend or start new search for perfect
+                                    tenant.</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <div class="h3 text-gray-800 mx-3">Features</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h6 class="h6 text-gray-600 mb-4">Menage Your apartments</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">Track payments</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">Create tasks for each apartment</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">Communicate with tenants</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--CONTACT-->
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <div class="h3 text-gray-800 mx-3">Contact</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h6 class="h6 text-gray-600 mb-4">Application creator</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">Łukasz Wacławek</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">waclawek.it@gmail.com</h6>
+                                    <hr>
+                                    <h6 class="h6 text-gray-600 mb-4">+48 788 616 460</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
+
+</body>
+</html>

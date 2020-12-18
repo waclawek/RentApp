@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="edit profile">
+    <meta name="author" content="lukasz waclawek">
+    <title>Edit profile</title>
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+    <style>
+
+        .center {
+
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centerBlock {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 40%;
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: white;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: dodgerblue;
+            color: white;
+        }
+    </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h2 class="h3 mb-1 text-gray-800">Edit profile</h2>
+
+                <div class="centerBlock">
+
+
+                    <form method="post" th:action="@{/user/save}" th:object="${user}">
+                        <table id="customers">
+                            <tr>
+                                <td>Name</td>
+                                <td><input type="text" name="firstname" th:value="*{firstname}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Lastname</td>
+                                <td><input type="text" name="lastname" th:value="*{lastname}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Password</td>
+                                <td><input type="password" name="password"/></td>
+                            </tr>
+                            <tr>
+                                <td>Password - confirm</td>
+                                <td><input type="password" name="password2"/></td>
+                            </tr>
+                            <tr>
+                                <td>Telephone</td>
+                                <td><input type="text" name="telephone" th:value="*{telephone}"/></td>
+                            </tr>
+                            <tr>
+                                <td>email</td>
+                                <td><input type="text" name="email" th:value="*{email}"/></td>
+                            </tr>
+                        </table>
+                        <input type=hidden name="username" id="username" th:value="*{username}"><br>
+                        <input type=hidden name="userRole" id="userRole" th:value="*{userRole}"><br>
+                        <div style="text-align:center">
+                            <input type="submit" class="btn btn-outline-primary" value="Save"/>
+                        </div>
+
+                    </form>
+                    <form action="/tasks" method="get">
+                        <div style="text-align:left">
+                            <input type="submit" class="btn btn-outline-secondary" value="Back to task list"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div sec:authorize="isAnonymous()">
+    <h1>Brak autoryzacji.</h1>
+    <a th:href="@{/}">Get back to home page to log in.</a>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+
+</body>
+</html>
+

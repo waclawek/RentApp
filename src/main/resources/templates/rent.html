@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Rent page</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="rests">
+    <meta name="author" content="lukasz waclawek">
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-1 text-gray-800">Rent</h1>
+                <p class="mb-2">In this place, you can menage rents. Rent is based on the apartment You would like to
+                    rent. After rent creation, it is possible to add Tenants to the chosen rent. Each tenant is a new
+                    user and can log into the system.</p>
+                <p>Tenant password is created by adding surname and telephone number (temporary before email
+                    integration)</p>
+                <form class="mb-4" sec:authorize="hasRole('OWNER')" method="get" th:action="@{/owner/rent/create}">
+                    <button class="btn btn-warning btn-sm" type="submit">+ create new rent</button>
+                </form>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Rent list</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <td>Apartment</td>
+                                <td>From date</td>
+                                <td>To date</td>
+                                <td>Balance</td>
+                                <td>Actions</td>
+                                </thead>
+                                <tbody>
+                                <tr th:each="rent : ${rents}">
+                                    <td><span th:text="${apartmentService.findById(rent.apartmentId).getName()}"></span>
+                                    </td>
+                                    <td><span th:text="${rent.beginDate}"></span></td>
+                                    <td><span th:text="${rent.endDate}"></span></td>
+                                    <td>--</td>
+                                    <td>
+                                        <form sec:authorize="hasRole('OWNER')" class="d-inline p-1" method="post"
+                                              th:action="@{/owner/rent/edit}">
+                                            <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                            <button class="btn btn-outline-primary btn-sm" type="submit">edit</button>
+                                        </form>
+                                        <form sec:authorize="hasRole('OWNER')" class="d-inline p-1" method="post"
+                                              th:action="@{/owner/rent/delete}">
+                                            <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                            <button class="btn btn-outline-danger btn-sm" type="submit">delete</button>
+                                        </form>
+                                        <!--                                    <form sec:authorize="hasRole('OWNER')" class="d-inline p-1" method="post"-->
+                                        <!--                                          th:action="@{/owner/rent/details}">-->
+                                        <!--                                        <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">-->
+                                        <!--                                        <button class="btn btn-outline-secondary btn-sm" type="submit" disabled>-->
+                                        <!--                                            details-->
+                                        <!--                                        </button>-->
+                                        <!--                                    </form>-->
+                                        <form sec:authorize="hasRole('OWNER')" class="d-inline p-1" method="post"
+                                              th:action="@{/owner/rent/tenants}">
+                                            <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                            <button class="btn btn-outline-primary btn-sm" type="submit">tenants
+                                            </button>
+                                        </form>
+                                        <form sec:authorize="hasRole('RENTIER')" class="d-inline p-1" method="post"
+                                              th:action="@{/tenant/rent/tenants}">
+                                            <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                            <button class="btn btn-outline-secondary btn-sm" type="submit">tenants
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+</body>
+</html>

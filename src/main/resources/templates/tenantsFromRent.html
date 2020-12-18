@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tenants from Rent</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="tenants from rent">
+    <meta name="author" content="lukasz waclawek">
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h2 class="h3 mb-1 text-gray-800">Tenants from rent</h2>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Current rent</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <th>Id</th>
+                            <th>Apartment</th>
+                            <th>From date</th>
+                            <th>To date</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span th:text="${rent.id}"></span></td>
+                                <td><span th:text="${apartmentService.findById(rent.apartmentId).getName()}"></span>
+                                </td>
+                                <td><span th:text="${rent.beginDate}"></span></td>
+                                <td><span th:text="${rent.endDate}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Tenants from rent</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered" id="tenantsTable" width="100%" cellspacing="0">
+                            <thead>
+                            <td>First name</td>
+                            <td>Last name</td>
+                            <td>email</td>
+                            <td>phone nr</td>
+                            <td>actions</td>
+                            </thead>
+                            <tbody>
+                            <tr th:each="tenant : ${tenants}">
+                                <td><span th:text="${tenant.firstname}"></span></td>
+                                <td><span th:text="${tenant.lastname}"></span></td>
+                                <td><span th:text="${tenant.email}"></span></td>
+                                <td><span th:text="${tenant.telephone}"></span></td>
+                                <td>
+                                    <form class="d-inline p-1" method="post" th:action="@{/owner/rent/tenants/edit}">
+                                        <input hidden name="tenantUsername" th:name="tenantUsername"
+                                               th:value="${tenant.username}">
+                                        <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                        <button class="btn btn-outline-secondary btn-sm" type="submit">edit</button>
+                                    </form>
+                                    <form class="d-inline p-1" method="post" th:action="@{/owner/rent/tenants/delete}">
+                                        <input hidden name="tenantUsername" th:name="tenantUsername"
+                                               th:value="${tenant.username}">
+                                        <input hidden name="rentId" th:name="rentId" th:value="${rent.id}">
+                                        <button class="btn btn-outline-secondary btn-sm" type="submit">delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Add new tenant</h6>
+                    </div>
+                    <div class="form-group">
+                        <span class="error" th:text="${errors}"></span>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" th:action="@{/owner/rent/newTenant}" th:object="${tenantDto}">
+                            <label for="firstname">Firstname:</label>
+                            <input type="text" id="firstname" name="firstname" th:field="*{firstname}"/><br>
+                            <span class="error" th:if="${#fields.hasErrors('*{firstname}')}"
+                                 th:errors="*{firstname}"></span>
+                            <label for="lastname">Lastname:</label>
+                            <input type="text" id="lastname" name="lastname" th:field="*{lastname}"/><br>
+                            <span class="error" th:if="${#fields.hasErrors('*{lastname}')}" th:errors="*{lastname}"/>
+                            <label for="telephone">Telephone:</label>
+                            <input type="text" id="telephone" name="telephone" th:field="*{telephone}"/><br>
+                            <span class="error" th:if="${#fields.hasErrors('*{telephone}')}"
+                                  th:errors="*{telephone}"></span>
+
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" th:field="*{email}"/><br>
+                            <span class="error" th:if="${#fields.hasErrors('*{email}')}" th:errors="*{email}"/>
+                            <span class="error" th:if="${#fields.hasErrors('global')}" th:errors="*{global}"/>
+                            <input hidden name="rentId" th:value="${rent.id}">
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">add tenant</button>
+                        </form>
+                    </div>
+                </div>
+                <br>
+                <form class="d-inline" method="get" th:action="@{/owner/rent}">
+                    <button class="btn btn-outline-secondary btn-sm" type="submit">back</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+</body>
+</html>

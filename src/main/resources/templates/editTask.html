@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="apartments">
+    <meta name="author" content="lukasz waclawek">
+    <title>Edit task</title>
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+    <style>
+
+        .center {
+
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .centerBlock {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+
+                <div sec:authorize="isAuthenticated()">
+                    <!-- Page Heading -->
+                    <h2 class="h3 mb-1 text-gray-800">Edit task</h2>
+                    <div class="centerBlock">
+                        <h2>task menage</h2>
+                        <h6>id# <span th:text="${task.id}"></span> , Created at: <span
+                                th:text="${task.creationDate}"></span>, by: <span th:text="${task.userId}"></span></h6>
+                        <div style="display: inline">
+                            <form style="display: inline" method="post" th:action="@{/tasks/save}" th:object="${task}">
+                                <div class="form-group">
+                                    <label for="apartmentId">Choose apartment </label>
+                                    <select name="apartmentId" id="apartmentId" th:field="*{apartmentId}">
+                                        <option th:each="apartment : ${apartments}" th:value="${apartment.id}"><span
+                                                th:text="${apartment.name}"></span> <span
+                                                th:text="${apartment.address}"></span></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Subject </label><br>
+                                    <textarea id="description" name="description" rows="4" cols="50" value
+                                              th:text="*{description}"></textarea>
+                                </div>
+                                <td>
+                                    Status zgłoszenia:
+                                    <select th:field="*{status}">
+                                        <div th:unless="*{status} eq 'NEW'">
+                                            <option value="NEW" checked>NOWY</option>
+                                        </div>
+                                        <div th:if="*{status} eq 'NEW'">
+                                            <option value="NEW">New</option>
+                                        </div>
+                                        <div th:unless="*{status} eq 'DONE'">
+                                            <option value="DONE" checked>DONE</option>
+                                        </div>
+                                        <div th:if="*{status} eq 'DONE'">
+                                            <option value="DONE">DONE</option>
+                                        </div>
+                                        <div th:unless="*{status} eq 'INPROGRESS'">
+                                            <option value="INPROGRESS" checked>INPROGRESS</option>
+                                        </div>
+                                        <div th:if="*{status} eq 'INPROGRESS'">
+                                            <option value="INPROGRESS">INPROGRESS</option>
+                                        </div>
+                                        <div th:unless="*{status} eq 'CANCELED'">
+                                            <option value="CANCELED" checked>CANCELED</option>
+                                        </div>
+                                        <div th:if="*{status} eq 'CANCELED'">
+                                            <option value="CANCELED">CANCELED</option>
+                                        </div>
+                                    </select>
+                                    <input type=hidden name="id" id="id" value="*{id}" th:field="*{id}"><br>
+                                    <div style="text-align:center">
+                                        <input type="submit" class="btn btn-outline-primary" value="Save"/>
+                                    </div>
+                            </form>
+                            <form action="/tasks" method="get">
+                                <div style="text-align:left">
+                                    <input type="submit" class="btn btn-outline-secondary" value="Back to task list"/>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <h1>Brak autoryzacji.</h1>
+                    <a th:href="@{/}">Get back to home page to log in.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+
+</body>
+</html>

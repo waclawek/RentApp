@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+
+<div th:fragment="navigation">
+    <div th:object="${user}">
+
+        <div class="alert alert-secondary" role="alert">
+            <div style="display: inline"><b>Panda Rent</b></div>
+            <div style="display: inline">
+                <form style="text-align: right" method="post" th:action="@{/logout}">
+                    <a th:href="@{/tasks}">[Tasks]</a>
+                    Username:<b> <a th:href="@{/user/profile}"><span th:text="*{username}"></span></a></b> [<span
+                        th:text="*{firstname}"></span> <span th:text="*{lastname}"></span>]
+                    Contact: <span th:text="*{email}"></span>, tel: <span th:text="*{telephone}"></span>
+                    <input type="submit" class="btn btn-outline-success" value="Logout"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <ul sec:authorize="hasRole('OWNER')">
+        <li><a th:href="@{/owner/apartment}">Apartments</a></li>
+        <li><a th:href="@{/owner/rent}">Rents</a></li>
+        <li><a th:href="@{/owner/payment}">Payments</a></li>
+    </ul>
+
+    <ul sec:authorize="hasRole('RENTIER')">
+        <li><a th:href="@{/tenant/rent}">Rents</a></li>
+        <li><a th:href="@{/tenant/payment}">Payments</a></li>
+    </ul>
+</div>
+</div>
+
+</body>
+</html>

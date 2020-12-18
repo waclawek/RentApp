@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="create rent">
+    <meta name="author" content="lukasz waclawek">
+    <title>Create rent</title>
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h2 class="h3 mb-1 text-gray-800">Create new rent</h2>
+                <div class="error" th:if="${message}" th:text="${message}"></div>
+                <form method="post" th:action="@{/owner/rent/createRent}" th:object="${rent}">
+                    <div class="form-group">
+                        <label for="apartmentId">Select apartment:</label>
+                        <select id="apartmentId" name="apartmentId" th:field="*{apartmentId}">
+                            <option th:each="apartment : ${apartments}" th:value="${apartment.id}"
+                                    th:text="${apartment.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="beginDate">Rent beginning date:</label>
+                        <input name="beginDate" type="date" id="beginDate" th:field="*{beginDate}">
+                        <span class="error" th:if="${#fields.hasErrors('*{beginDate}')}" th:errors="*{beginDate}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Rent end date:</label>
+                        <input name="endDate" type="date" id="endDate" th:field="*{endDate}">
+                        <span class="error" th:if="${#fields.hasErrors('*{endDate}')}" th:errors="*{endDate}"/>
+                    </div>
+                    <button class="btn btn-warning btn-sm" type="submit">+ create</button>
+                </form>
+                <br>
+                <div class="form-group"><a th:href="@{/owner/rent}">Back to rents</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+</body>
+</html>

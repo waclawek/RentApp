@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Payments by rent</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Payments by rent">
+    <meta name="author" content="lukasz waclawek">
+    <link th:href="@{/vendor/fontawesome-free/css/all.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.css}" rel="stylesheet"/>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/left-menu :: navigation"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Top Wrapper -->
+            <div th:replace="fragments/top-bar :: navigation"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div sec:authorize="isAuthenticated()">
+
+                    <!-- Page Heading -->
+                    <h2 class="h3 mb-2 text-gray-800">Payments by rent</h2>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Current rent:</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered" id="rent" width="100%" cellspacing="0">
+                                <thead>
+                                <th width="50px" align="center">Id</th>
+                                <th width="250px" align="left">Apartment</th>
+                                <th width="100px" align="left">From date</th>
+                                <th width="100px" align="left">To date</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><span th:text="${rent.id}"></span></td>
+                                    <td><span th:text="${apartment.name}"></span></td>
+                                    <td><span th:text="${rent.beginDate}"></span></td>
+                                    <td><span th:text="${rent.endDate}"></span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- current balance total-->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Balance
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><span
+                                                    th:text="${balance}"/></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- rent deposit -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                DEPOSIT FROM RENT
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <span th:text="${depositFromRent}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div sec:authorize="hasRole('OWNER')" class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Create new Payment in this rent</h6>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" th:action="@{/owner/payment/byrent/new-payment}" th:object="${payment}">
+                                <div class="error" th:if="${#fields.hasErrors('*{rentId}')}"
+                                     th:errors="*{rentId}"><br></div>
+                                <div class="error" th:if="${#fields.hasErrors('*{amount}')}" th:errors="*{amount}"><br>
+                                </div>
+                                <div class="error" th:if="${#fields.hasErrors('*{description}')}"
+                                     th:errors="*{description}"><br></div>
+                                <input type="hidden" th:field="*{rentId}" th:value="${rent.id}">
+                                <label for="amount">Amount:</label>
+                                <input type="number" step=".01" name="amount" id="amount" th:field="*{amount}">
+                                <span class="error" th:if="${#fields.hasErrors('*{amount}')}" th:errors="*{amount}"/>
+                                <label for="description">Description:</label>
+                                <input type="text" name="description" id="description" th:field="*{description}">
+                                <label for="type">Type:</label>
+                                <select id="type" name="type" th:field="*{paymentType}">
+                                    <option th:each="PaymentType : ${T(pl.alpaka.rentalapp.domain.payment.PaymentType).values()}"
+                                            th:value="${PaymentType}"
+                                            th:field="*{paymentType}" th:text="${PaymentType}"></option>
+                                </select>
+                                <label for="paymentDeadline">Deadline:</label>
+                                <input type="date" name="paymentDeadline" id="paymentDeadline"
+                                       th:field="*{paymentDeadline}">
+                                <input hidden id="rentIdForPayment" name="rentIdForPayment"
+                                       th:value="${rentIdForPayment}">
+                                <button type="submit" class="btn-sm btn-outline-primary">add payment</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Payments from rent</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered" id="dataTable" width="100%"
+                                   cellspacing="0">
+                                <thead>
+                                <th width="50ox" align="center">Rent id</th>
+                                <th width="300px" align="left">Description</th>
+                                <th width="100px" align="center">Payment type</th>
+                                <th width="50px" align="center">Paid</th>
+                                <th width="100px" align="left">Creation date</th>
+                                <th width="100px" align="left">Payment deadline</th>
+                                <th width="100px" align="left">Amount</th>
+                                <th sec:authorize="hasRole('OWNER')" width="150px" align="center">Actions</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each="p : ${payments}">
+                                    <td><span th:text="${p.rentId}"></span></td>
+                                    <td><span th:text="${p.description}"></span></td>
+                                    <td><span th:text="${p.paymentType}"></span></td>
+                                    <td><span th:text="${p.paid} ? 'Yes' : 'No'"></span></td>
+                                    <td><span th:text="${p.created}"></span></td>
+                                    <td><span
+                                            th:text="${p.paymentDeadline == null} ? '-' : ${p.paymentDeadline}"></span>
+                                    </td>
+                                    <td align="center"><span th:text="${p.amount}"></span></td>
+                                    <td sec:authorize="hasRole('OWNER')">
+                                        <!--                                            <form sec:authorize="hasRole('OWNER')" class="d-inline p-1" method="post" th:action="@{/owner/payment/edit}">-->
+                                        <!--                                                <input hidden name="paymentId" th:value="${p.id}">-->
+                                        <!--                                                <button class="btn btn-outline-primary btn-sm" type="submit" disabled>-->
+                                        <!--                                                    edit-->
+                                        <!--                                                </button>-->
+                                        <!--                                            </form>-->
+                                        <form class="d-inline p-1" method="post"
+                                              th:action="@{/owner/payment/delete}">
+                                            <input hidden name="paymentId" th:value="${p.id}">
+                                            <button class="btn btn-outline-danger btn-sm" type="submit">
+                                                delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <h1>Unauthorized access.</h1>
+                <a th:href="@{/}">Go to main page.</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{../vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{../vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{../vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{../js/sb-admin-2.min.js}"></script>
+
+</body>
+</html>

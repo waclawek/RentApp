@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+
+<div th:fragment="navigation">
+
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Sidebar Owner -->
+        <a sec:authorize="hasRole('OWNER')">
+            <!-- Sidebar - Logo -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/system}">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Panda Rent</div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/dashboard}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Apartments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/owner/apartment}">
+                    <i class="far fa-building"></i>
+                    <span>Apartments</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Rents -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/owner/rent}">
+                    <i class="fas fa-retweet"></i>
+                    <span>Rents</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Payments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/owner/payment}">
+                    <i class="fas fa-coins"></i>
+                    <span>Payments</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Payments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/owner/tasks}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tasks</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </a>
+
+        <!-- Sidebar Tenant -->
+        <a sec:authorize="hasRole('RENTIER')">
+            <!-- Sidebar - Logo -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="system.html">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Rent App<sup>0.0.2</sup></div>
+            </a>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/dashboard}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Apartments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/tenant/apartment}">
+                    <i class="far fa-building"></i>
+                    <span>Apartment</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Rents -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/tenant/rent}">
+                    <i class="fas fa-retweet"></i>
+                    <span>Rents</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Payments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/tenant/payment}">
+                    <i class="fas fa-coins"></i>
+                    <span>Payments</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+            <!-- Payments -->
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/tenant/tasks}">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tasks</span></a>
+            </li>
+        </a>
+    </ul>
+</div>
+</body>
+</html>
