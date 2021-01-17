@@ -10,7 +10,9 @@ Rental App<br>
 <b>stores tasks</b> each Apartment has individual tasks to menage <br>
 <b>stores tenants</b> each Rent has tenants, for each of them user account is created<br>
 
-http://apartmentrentalapp.azurewebsites.net/ <br>
-Azure free is located in cold storage. First request can take up to 2 minutes. On the way to move to another platform.
+https://pandarent.app/ <br>
+App is up and running on vps platform.
+example user: adam@mail.com
+example user pass: adam1
 
 release 0.0.2
